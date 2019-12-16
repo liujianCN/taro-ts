@@ -1,5 +1,10 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import Index from './pages/index'
+import '@tarojs/async-await';
+import Taro, { Component, Config } from '@tarojs/taro';
+import Index from './pages/home';
+import { Provider } from '@tarojs/redux';
+import models from './models';
+
+import dva from './utils/dva';
 
 import './app.scss'
 
@@ -8,6 +13,11 @@ import './app.scss'
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
 //   require('nerv-devtools')
 // }
+const dvaApp = dva.createApp({
+  initialState: {},
+  models: models
+})
+const store = dvaApp.getStore();
 
 class App extends Component {
 
@@ -20,29 +30,52 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/home/index',
+      'pages/user/index',
+      'pages/setting/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      backgroundColor: '#ffffff',
+      color: '#b3b3b3',
+      selectedColor: '#0c17d8',
+      list: [
+        {
+          pagePath: 'pages/home/index',
+          text: '首页',
+          iconPath: './assets/images/tabBar-home.png',
+          selectedIconPath: './assets/images/tabBar-home-select.png'
+        },
+        {
+          pagePath: 'pages/user/index',
+          text: '我的',
+          iconPath: './assets/images/tabBar-user.png',
+          selectedIconPath: './assets/images/tabBar-user-select.png'
+        }
+      ]
     }
   }
 
-  componentDidMount () {}
+  componentDidMount() { }
 
-  componentDidShow () {}
+  componentDidShow() { }
 
-  componentDidHide () {}
+  componentDidHide() { }
 
-  componentDidCatchError () {}
+  componentDidCatchError() { }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
+  render() {
     return (
-      <Index />
+      <Provider store={store}>
+        <Index />
+      </Provider>
     )
   }
 }

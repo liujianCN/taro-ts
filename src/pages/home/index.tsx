@@ -1,6 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
+import homeBgImg from '../../assets/images/bg-home.jpg'
 import './index.scss'
+
 
 export default class Index extends Component {
 
@@ -27,8 +29,8 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
-        <Text>Hello world!</Text>
+      <View className='home-container'>
+        <Image className='home-bg' src={homeBgImg}/>
       </View>
     )
   }
